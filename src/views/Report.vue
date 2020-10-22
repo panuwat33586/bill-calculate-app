@@ -27,6 +27,7 @@ export default {
   },
   mounted(){
         this.$store.dispatch('sumDisplayData',this.transactions)
+        this.$store.dispatch('sumTotalQuantityAmount',this.transactions)
   },
   computed:{
     ...mapState(['transactions','displayData'])

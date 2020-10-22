@@ -48,35 +48,33 @@
         role="tabpanel"
         aria-labelledby="home-tab"
       >
-      <DataTable
-      :sortDisplaydata="sortDisplayData"
-      />
+        <DataTable :sortDisplaydata="sortDisplayData"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import DataTable from './DataTable'
+import DataTable from "./DataTable";
 export default {
-    components:{
-        DataTable
+  components: {
+    DataTable,
+  },
+  data() {
+    return {
+      sortmode: null,
+    };
+  },
+  computed: {
+    sortDisplayData() {
+      return this.$store.getters["sortDisplayData"](this.sortmode);
     },
-    data(){
-       return{
-           sortmode:null
-       }
+  },
+  methods: {
+    switchMode(type) {
+      this.sortmode = type;
     },
-    computed:{
-        sortDisplayData(){
-            return this.$store.getters['sortDisplayData'](this.sortmode)
-        }
-    },
-    methods:{
-        switchMode(type){
-              this.sortmode=type
-        }
-    }
+  },
 };
 </script>
 

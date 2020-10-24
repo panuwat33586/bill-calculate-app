@@ -7,3 +7,7 @@ export const checkInDuration=(fromDate,toDate,Date)=>{
 
    return dayjs(Date).isBetween(fromDate, dayjs(toDate),null, '[]') 
 }
+
+export const getDateofMonth=(date)=>{
+   return dayjs(date).date()
+}

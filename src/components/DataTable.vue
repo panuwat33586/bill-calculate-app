@@ -1,5 +1,6 @@
 <template>
   <div class="datatable-container">
+    <div class="table-responsive">
     <table class="table" id="datatable">
       <thead class="black white-text">
         <tr>
@@ -13,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(data, $dataIndex) in sortDisplaydata" :key="$dataIndex">
+        <tr v-for="(data, $dataIndex) in tablecontents" :key="$dataIndex">
           <td
             v-for="(tableheader, $tableheaderIndex) in tableheaders"
             :key="$tableheaderIndex"
@@ -23,25 +24,19 @@
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      tableheaders: [
-        { name: "group", key: "sku" },
-        { name: "name", key: "name" },
-        { name: "quantity", key: "quantity" },
-        { name: "amount", key: "amount" },
-      ],
-    };
-  },
   props: {
-    sortDisplaydata: {
+    tablecontents: {
       required: true,
     },
+    tableheaders:{
+      required:true
+    }
   }
 };
 </script>

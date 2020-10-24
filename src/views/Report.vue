@@ -3,10 +3,12 @@
     <Navbar/>
     <div class="app-container">
     <div class="row">
-      <div class="col-3">
+      <div class="col">
         <InputDate />
       </div>
-      <div class="col-9">
+    </div>
+    <div class='row'>
+       <div class="col">
          <SelectionTabs/>
       </div>
     </div>
@@ -25,9 +27,10 @@ export default {
     Navbar,
     SelectionTabs
   },
-  mounted(){
+  created(){
         this.$store.dispatch('sumDisplayData',this.transactions)
         this.$store.dispatch('sumTotalQuantityAmount',this.transactions)
+        this.$store.dispatch('sumTransactionsbyDatetoDate',this.transactions)
   },
   computed:{
     ...mapState(['transactions','displayData'])

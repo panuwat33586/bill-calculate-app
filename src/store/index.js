@@ -15,6 +15,7 @@ export default new Vuex.Store({
     filteredTransactions: null,
     totalquantity: null,
     totalamount: null,
+    totalDatebyDate:null,
     sortedByDate: null,
   },
   getters: {
@@ -48,6 +49,9 @@ export default new Vuex.Store({
     setSortedByDate(state, dataBydate) {
       state.sortedByDate = dataBydate
     },
+    setTotalDatebyDate(state,totaldatebydate){
+      state.totalDatebyDate=totaldatebydate
+    }
   },
   actions: {
     async useDurationSort({ state, dispatch }, { fromDate, toDate }) {
@@ -56,6 +60,7 @@ export default new Vuex.Store({
         dispatch('sumDisplayData', state.filteredTransactions)
         dispatch('sumTotalQuantityAmount', state.filteredTransactions)
         dispatch('sumTransactionsbyDatetoDate2',state.filteredTransactions)
+        dispatch('sumtotalDatebyDate',state.filteredTransactions)
       },1000)
     },
     filterTransactions({ state, commit }, { fromDate, toDate }) {
@@ -130,6 +135,19 @@ export default new Vuex.Store({
       }, {})
       commit('setSortedByDate', dataBydate)
     },
+    sumtotalDatebyDate({commit},data){
+        const totalDatebyDate=data.reduce((acc, current) => {
+          if(acc[current.date]==undefined){
+            acc[current.date]= {amount:0,quantity:0}
+          }
+          const skuquantity = current.qty
+          const skuprice = current.sku.price
+          acc[current.date].amount+=skuquantity * skuprice
+          acc[current.date].quantity+=skuquantity
+          return acc
+        }, {})
+        commit('setTotalDatebyDate', totalDatebyDate)
+    }
   },
   modules: {
   }

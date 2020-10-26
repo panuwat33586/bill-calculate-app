@@ -133,6 +133,7 @@
           :datetablecontents="sortedByDate"
           :sortmode="datetablesortmode"
           :overalltotal="{quantity:totalquantity,amount:totalamount}"
+          :totaldatebydate="totalDatebyDate"
         />
       </div>
     </div>
@@ -167,7 +168,7 @@ export default {
     this.generatedateTableHeader()
   },
   computed: {
-    ...mapState(["sortedByDate","totalquantity","totalamount"]),
+    ...mapState(["sortedByDate","totalquantity","totalamount","totalDatebyDate"]),
     sortDisplayData() {
       return this.$store.getters["sortDisplayData"](this.sortmode);
     },

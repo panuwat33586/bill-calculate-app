@@ -30,7 +30,8 @@ export default {
   created(){
         this.$store.dispatch('sumDisplayData',this.transactions)
         this.$store.dispatch('sumTotalQuantityAmount',this.transactions)
-        this.$store.dispatch('sumTransactionsbyDatetoDate',this.transactions)
+        this.$store.dispatch('sumTransactionsbyDatetoDate2',this.transactions)
+        // this.$store.dispatch('sumTransactionsbyDatetoDate',this.transactions)
   },
   computed:{
     ...mapState(['transactions','displayData'])

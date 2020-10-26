@@ -13,7 +13,7 @@ export default {
      ...mapState(['transactions','sortedByDate'])
   },
   mounted(){
-    this.$store.dispatch('sumTransactionsbyDatetoDate',this.transactions)
+    this.$store.dispatch('sumTransactionsbyDatetoDate2',this.transactions)
   }
 }
 </script>

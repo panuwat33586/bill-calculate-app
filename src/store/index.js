@@ -52,8 +52,11 @@ export default new Vuex.Store({
   actions: {
     async useDurationSort({ state, dispatch }, { fromDate, toDate }) {
       await dispatch('filterTransactions', { fromDate, toDate })
-      await dispatch('sumDisplayData', state.filteredTransactions)
-      await dispatch('sumTotalQuantityAmount', state.filteredTransactions)
+      await setTimeout(()=>{
+        dispatch('sumDisplayData', state.filteredTransactions)
+        dispatch('sumTotalQuantityAmount', state.filteredTransactions)
+        dispatch('sumTransactionsbyDatetoDate2',state.filteredTransactions)
+      },1000)
     },
     filterTransactions({ state, commit }, { fromDate, toDate }) {
       const filteredTransactions = state.transactions.filter(transaction => {
@@ -90,19 +93,39 @@ export default new Vuex.Store({
       },{})
       commit('setTotalQuantityandAmount', qauntityandAmount)
     },
-    sumTransactionsbyDatetoDate({ commit }, data) {
+    // for date sku format
+    // sumTransactionsbyDatetoDate({ commit }, data) {
+    //   const dataBydate = data.reduce((acc, current) => {
+    //     if(acc[current.date]==undefined){
+    //       acc[current.date]= {}
+    //     }
+    //     if(acc[current.date][current.sku.sku]==undefined){
+    //       const initform={sku:current.sku.sku, name: current.sku.name, quantity: 0, amount: 0 }
+    //       acc[current.date][current.sku.sku]=initform
+    //     }
+    //     const skuquantity = current.qty
+    //     const skuprice = current.sku.price
+    //     acc[current.date][current.sku.sku].quantity += skuquantity
+    //     acc[current.date][current.sku.sku].amount += skuquantity * skuprice
+    //     return acc
+    //   }, {})
+    //   commit('setSortedByDate', dataBydate)
+    // },
+    sumTransactionsbyDatetoDate2({ commit }, data) {
       const dataBydate = data.reduce((acc, current) => {
-        if(acc[current.date]==undefined){
-          acc[current.date]= { date: current.date }
+        if(acc[current.sku.sku]==undefined){
+          acc[current.sku.sku]= {amount:0,quantity:0}
         }
-        if(acc[current.date][current.sku.sku]==undefined){
-          const initform={sku:current.sku.sku, name: current.sku.name, quantity: 0, amount: 0 }
-          acc[current.date][current.sku.sku]=initform
+        if(acc[current.sku.sku][current.date]==undefined){
+          const initform={date:current.date,quantity: 0, amount: 0 }
+          acc[current.sku.sku][current.date]=initform
         }
         const skuquantity = current.qty
         const skuprice = current.sku.price
-        acc[current.date][current.sku.sku].quantity += skuquantity
-        acc[current.date][current.sku.sku].amount += skuquantity * skuprice
+        acc[current.sku.sku].amount+=skuquantity * skuprice
+        acc[current.sku.sku].quantity+=skuquantity
+        acc[current.sku.sku][current.date].quantity += skuquantity
+        acc[current.sku.sku][current.date].amount += skuquantity * skuprice
         return acc
       }, {})
       commit('setSortedByDate', dataBydate)

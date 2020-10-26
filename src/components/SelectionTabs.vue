@@ -65,7 +65,8 @@
           :tableheaders="tableheadersbygroup"
         />
       </div>
-      <div
+      <!-- for mapping date sku -->
+      <!-- <div
         class="tab-pane fade show"
         id="tablesortbydate"
         role="tabpanel"
@@ -97,6 +98,42 @@
           :datetablecontents="sortedByDate"
           :sortmode="datetablesortmode"
         />
+      </div> -->
+
+      <!-- for mapping sku date -->
+      <div
+        class="tab-pane fade show"
+        id="tablesortbydate"
+        role="tabpanel"
+        aria-labelledby="tablesortbydate-tab"
+      >
+        <div class="form-check form-check-inline">
+          <input
+            type="radio"
+            class="form-check-input"
+            id="quantity"
+            name="inlineMaterialRadiosExample"
+            @click="switchDateTablesort('quantity')"
+            checked
+          />
+          <label class="form-check-label" for="materialInline1">Quantity</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            type="radio"
+            class="form-check-input"
+            id="amount"
+            name="inlineMaterialRadiosExample"
+            @click="switchDateTablesort('amount')"
+          />
+          <label class="form-check-label" for="materialInline1">Amount</label>
+        </div>
+        <DateTable
+          :datetableheaders="datetableheaders"
+          :datetablecontents="sortedByDate"
+          :sortmode="datetablesortmode"
+          :overalltotal="{quantity:totalquantity,amount:totalamount}"
+        />
       </div>
     </div>
   </div>
@@ -115,7 +152,7 @@ export default {
   data() {
     return {
       sortmode: null,
-      datetablesortmode:'quantity',
+      datetablesortmode: "quantity",
       tableheadersbygroup: [
         { name: "group", key: "sku" },
         { name: "name", key: "name" },
@@ -123,29 +160,41 @@ export default {
         { name: "amount", key: "amount" },
         { name: "percent(%)", key: "percent" },
       ],
+      datetableheaders:[]
     };
   },
+  mounted(){
+    this.generatedateTableHeader()
+  },
   computed: {
-    ...mapState(["sortedByDate"]),
+    ...mapState(["sortedByDate","totalquantity","totalamount"]),
     sortDisplayData() {
       return this.$store.getters["sortDisplayData"](this.sortmode);
     },
-    generatedateTableHeaders() {
-      const sortDate = Object.keys(this.sortedByDate).sort((a, b) =>
-        a < b ? -1 : 1
-      );
-      const dateHeaders = sortDate.map((date) => {
-        return { name: getDateofMonth(date), key: date };
-      });
-      return dateHeaders;
-    },
+    // for table header mapping date sku
+    // generatedateTableHeaders() {
+    //   const sortDate = Object.keys(this.sortedByDate).sort((a, b) =>
+    //     a < b ? -1 : 1
+    //   );
+    //   const dateHeaders = sortDate.map((date) => {
+    //     return { name: getDateofMonth(date), key: date };
+    //   });
+    //   return dateHeaders;
+    // },
   },
   methods: {
     switchMode(type) {
       this.sortmode = type;
     },
-    switchDateTablesort(type){
-      this.datetablesortmode=type
+    switchDateTablesort(type) {
+      this.datetablesortmode = type;
+    },
+    generatedateTableHeader(){
+      let date=[]
+      for(let i=1;i<31;i++){
+        date.push({day:`${i}`,key:getDateofMonth(i)})
+      }
+      this.datetableheaders=date
     }
   },
 };

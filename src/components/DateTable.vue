@@ -10,11 +10,16 @@
                name
           </th>
           <th
+          scope="col"
+          >
+               total
+          </th>
+          <th
             v-for="(tableheader, $tableheaderIndex) in datetableheaders"
             :key="$tableheaderIndex"
             scope="col"
           >
-            {{ tableheader.name }}
+            {{ tableheader.day }}
           </th>
         </tr>
       </thead>
@@ -23,12 +28,20 @@
           <td>
             {{data.name}}
           </td>
+          <td>
+            {{datetablecontents[data.sku]?datetablecontents[data.sku][sortmode]:'0'}}
+          </td>
           <td
             v-for="(tableheader, $tableheaderIndex) in datetableheaders"
             :key="$tableheaderIndex"
           >
-            {{datetablecontents[tableheader.key][data.sku]?datetablecontents[tableheader.key][data.sku][sortmode]:'0'}}
+          <!-- {{datetablecontents[tableheader.key][data.sku]?datetablecontents[tableheader.key][data.sku][sortmode]:'0'}} -->
+            {{datetablecontents[data.sku]&&datetablecontents[data.sku][tableheader.key]?datetablecontents[data.sku][tableheader.key][sortmode]:'0'}}
           </td>
+        </tr>
+        <tr>
+          <td>total</td>
+          <td>{{overalltotal[sortmode]}}</td>
         </tr>
       </tbody>
     </table>
@@ -52,6 +65,9 @@ export default {
       required:true
     },
     sortmode:{
+      required:true
+    },
+    overalltotal:{
       required:true
     }
   },
